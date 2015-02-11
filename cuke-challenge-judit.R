@@ -14,4 +14,38 @@ barplot(table(hol$dwc.institutionCode))
 year.count <- table(hol$dwc.year) ### 1902 is oldest
 #What proportion of the specimens in this data frame were collected between the years 2006 and 2014 (included)?
 spec.2006.2014 <- sum(year.count[45:53]) ##speciments between 2006-2014: 1472
-prop.col <- spec.2006.2014/nrow(hol) ## ~49.3%
+prop.col <- spec.2006.2014/nrow(hol) 
+prop.col*100 ## ~49.3%
+#4)Use the function nzchar to answer:
+#How many specimens do not have the information for class listed?
+table(nzchar(hol$dwc.class)) #50 are missing class
+#For the specimens where the information is missing, replace it with the information for their (again, they should all be "Holothuroidea").
+hol$dwc.class <- "Holothuroidea"
+#5)Using the nom data frame, and the columns Subgenus.current and Genus.current, 
+#which of the genera listed has/have subgenera?
+nom$Genus.current[(table(nzchar(nom$Subgenus.current)))] #"Holothuria"
+#6)With the function paste(), 
+#create a new column (called genus_species) that 
+#contains the genus (column dwc.genus) and species names (column dwc.specificEpithet) 
+#for the hol data frame.
+genus_species <- paste(hol$dwc.genus, hol$dwc.specificEpithet, sep="_")
+hol <- cbind(hol, genus_species)
+#Do the same thing with the nom data frame 
+#(using the columns Genus.current and species.current).
+genus_species_current <- paste(nom$Genus.current, nom$species.current, sep="_")
+nom <- cbind(nom, genus_species=genus_species_current)
+#Use merge() to combine hol and nom 
+all.data <- merge(hol, nom, all.x=TRUE)
+#Create a data frame that contains the information for the specimens identified 
+#with an invalid species name (content of the column Status is not NA)? 
+#(hint: specimens identified only with a genus name 
+#shouldn't be included in this count.)
+Status_noNA <- all.data[!is.na(all.data$Status),]
+#Select only the columns: 
+#idigbio.uuid, 11
+#dwc.genus, 24
+#dwc.specificEpithet, 21
+#dwc.institutionCode, 8
+#dwc.catalogNumber 17 from this data frame and export the data as a CSV file 
+#(using the function write.csv) named holothuriidae-invalid.csv
+write.csv(Status_noNA[,c(11, 24,21, 8, 17)], file="data/holothuriidae-invalid.csv")
