@@ -1,5 +1,7 @@
+#download datasets
 download.file("http://r-bio.github.io/data/holothuriidae-specimens.csv", "data/holothuriidae-specimens.csv")
 download.file("http://r-bio.github.io/data/holothuriidae-nomina-valid.csv", "data/holothuriidae-nomina-valid.csv")
+#read data
 hol <- read.csv(file="data/holothuriidae-specimens.csv", stringsAsFactors = FALSE)
 nom <- read.csv(file = "data/holothuriidae-nomina-valid.csv", stringsAsFactors = FALSE)
 #1)How many specimens are included in the data frame hol?
