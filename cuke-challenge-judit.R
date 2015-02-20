@@ -14,8 +14,13 @@ barplot(table(hol$dwc.institutionCode))
 #3)The column dwc.year indicates when the specimen was collected:
 #When was the oldest specimen included in this data frame collected ? (hint: It was not in year 1)
 year.count <- table(hol$dwc.year) ### 1902 is oldest
+year.count
 #What proportion of the specimens in this data frame were collected between the years 2006 and 2014 (included)?
 spec.2006.2014 <- sum(year.count[45:53]) ##speciments between 2006-2014: 1472
+## how to do this in such a way that you don't have to count up to 45:
+spec.2006.2014 <- sum(table(hol$dwc.year[hol$dwc.year>2005]))
+spec.2006.2014
+
 prop.col <- spec.2006.2014/nrow(hol) 
 prop.col*100 ## ~49.3%
 #4)Use the function nzchar to answer:
@@ -43,6 +48,9 @@ all.data <- merge(hol, nom, all.x=TRUE)
 #(hint: specimens identified only with a genus name 
 #shouldn't be included in this count.)
 Status_noNA <- all.data[!is.na(all.data$Status),]
+## I think this needs to still find out the specimens that are invalid and the code above only found
+## the specimens with NA's so then you have to find out the part of the table where there are "no's" in the valid column
+Status_noNA_invaluid <- Status_noNA[Status_noNA$Valid == "no", ]
 #Select only the columns: 
 #idigbio.uuid, 11
 #dwc.genus, 24
@@ -51,3 +59,5 @@ Status_noNA <- all.data[!is.na(all.data$Status),]
 #dwc.catalogNumber 17 from this data frame and export the data as a CSV file 
 #(using the function write.csv) named holothuriidae-invalid.csv
 write.csv(Status_noNA[,c(11, 24,21, 8, 17)], file="data/holothuriidae-invalid.csv")
+#can make it easier without writing numbers to just use the column names
+## Status_noNA_invalid2 <- Status_noNA_invalid[ ,c("idigbio.uuid", "dwc.genus", "dwc.specificEpithet", "dwc.institutionCode", "dwc.catalogNumber")]
