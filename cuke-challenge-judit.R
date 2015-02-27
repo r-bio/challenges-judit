@@ -16,6 +16,10 @@ barplot(table(hol$dwc.institutionCode))
 year.count <- table(hol$dwc.year) ### 1902 is oldest
 #What proportion of the specimens in this data frame were collected between the years 2006 and 2014 (included)?
 spec.2006.2014 <- sum(year.count[45:53]) ##speciments between 2006-2014: 1472
+morethan2005 <- table(hol$dwc.year[hol$dwc.year>2005])   ### you can sum the elements after subsetting 
+sum(morethan2005) ## the answer is 1472
+length(hol$dwc.year)    ##2984
+1472/2984   ###.3280831 was your original answer   ##There must be a better way to do this
 prop.col <- spec.2006.2014/nrow(hol) 
 prop.col*100 ## ~49.3%
 #4)Use the function nzchar to answer:
