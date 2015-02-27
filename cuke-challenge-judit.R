@@ -19,7 +19,7 @@ spec.2006.2014 <- sum(year.count[45:53]) ##speciments between 2006-2014: 1472
 morethan2005 <- table(hol$dwc.year[hol$dwc.year>2005])   ### you can sum the elements after subsetting 
 sum(morethan2005) ## the answer is 1472
 length(hol$dwc.year)    ##2984
-1472/2984   ###.3280831 was your original answer   ##There must be a better way to do this
+1472/2984   #
 prop.col <- spec.2006.2014/nrow(hol) 
 prop.col*100 ## ~49.3%
 #4)Use the function nzchar to answer:
@@ -27,6 +27,7 @@ prop.col*100 ## ~49.3%
 table(nzchar(hol$dwc.class)) #50 are missing class
 #For the specimens where the information is missing, replace it with the information for their (again, they should all be "Holothuroidea").
 hol$dwc.class <- "Holothuroidea"
+hol$dwc.class[!nzchar(hol$dwc.class)] <- "Holothuroidea" ### this is more general!
 #5)Using the nom data frame, and the columns Subgenus.current and Genus.current, 
 #which of the genera listed has/have subgenera?
 nom$Genus.current[(table(nzchar(nom$Subgenus.current)))] #"Holothuria"
@@ -46,7 +47,7 @@ all.data <- merge(hol, nom, all.x=TRUE)
 #with an invalid species name (content of the column Status is not NA)? 
 #(hint: specimens identified only with a genus name 
 #shouldn't be included in this count.)
-Status_noNA <- all.data[!is.na(all.data$Status),]
+Status_NA <- all.data[is.na(all.data$Status),]
 #Select only the columns: 
 #idigbio.uuid, 11
 #dwc.genus, 24
@@ -54,4 +55,4 @@ Status_noNA <- all.data[!is.na(all.data$Status),]
 #dwc.institutionCode, 8
 #dwc.catalogNumber 17 from this data frame and export the data as a CSV file 
 #(using the function write.csv) named holothuriidae-invalid.csv
-write.csv(Status_noNA[,c(11, 24,21, 8, 17)], file="data/holothuriidae-invalid.csv")
+write.csv(Status_NA[,c(11, 24,21, 8, 17)], file="data/holothuriidae-invalid.csv")
