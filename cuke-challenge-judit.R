@@ -8,7 +8,7 @@ nom <- read.csv(file = "data/holothuriidae-nomina-valid.csv", stringsAsFactors =
 nrow(hol)  ### 2984
 #2) The column dwc.institutionCode in the hol data frame lists the museum where the specimens are housed:
 #How many institutions house specimens?
-table(hol$dwc.institutionCode) ### 4 institutions
+length(table(hol$dwc.institutionCode)) ### 4 institutions
 #Draw a bar plot that shows the contribution of each institution
 barplot(table(hol$dwc.institutionCode))
 #3)The column dwc.year indicates when the specimen was collected:
