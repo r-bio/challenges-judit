@@ -55,4 +55,5 @@ Status_NA <- all.data[is.na(all.data$Status),]
 #dwc.institutionCode, 8
 #dwc.catalogNumber 17 from this data frame and export the data as a CSV file 
 #(using the function write.csv) named holothuriidae-invalid.csv
-write.csv(Status_NA[,c(11, 24,21, 8, 17)], file="data/holothuriidae-invalid.csv")
+write.csv(Status_NA[,c(11, 24,21, 8, 17)], file="data/holothuriidae-invalid.csv", row.names=FALSE)
+
